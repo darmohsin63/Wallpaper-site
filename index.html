@@ -1,20 +1,270 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Wallpaper</title>
-    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WallArt</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* --- General Styles --- */
+        :root {
+            --primary-color: #1a1a1a;
+            --secondary-color: #2b2b2b;
+            --text-color: #e0e0e0;
+            --accent-color: #007bff;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+        }
+
+        /* --- Header & Search Bar --- */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .search-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        #searchInput {
+            width: 300px;
+            padding: 12px 40px 12px 15px;
+            border-radius: 25px;
+            border: 1px solid var(--secondary-color);
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        #searchInput:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+        }
+
+        .search-container .fa-search {
+            position: absolute;
+            top: 50%;
+            right: 15px;
+            transform: translateY(-50%);
+            color: #888;
+        }
+
+        /* --- Wallpaper Grid --- */
+        .wallpaper-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .wallpaper-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .wallpaper-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+
+        .wallpaper-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(0, 123, 255, 0.4);
+        }
+
+        .wallpaper-item:hover img {
+            transform: scale(1.1);
+        }
+
+        /* --- Modal Styles --- */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.9);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            margin: auto;
+            display: block;
+            max-width: 85vw;
+            max-height: 85vh;
+            border-radius: 5px;
+        }
+
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #bbb;
+        }
+
+        .download-btn {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--accent-color);
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .download-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
+
     <header>
-        <h1>Wallpaper 2</h1>
-        <nav><a href="/admin">Admin Panel</a></nav>
+        <h1>WallArt 🖼️</h1>
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search wallpapers (e.g., nature, city)...">
+            <i class="fas fa-search"></i>
+        </div>
     </header>
-    <main id="gallery">
-        <p>Wallpapers will appear here.</p>
-    </main>
-    <footer>© 2025 Wallpaper Site</footer>
+
+    <main id="wallpaper-grid" class="wallpaper-grid">
+        </main>
+
+    <div id="imageModal" class="modal">
+        <span class="close">&times;</span>
+        <img class="modal-content" id="modalImage">
+        <a class="download-btn" id="downloadLink" download>
+            <i class="fas fa-download"></i> Download
+        </a>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const wallpaperGrid = document.getElementById('wallpaper-grid');
+            const searchInput = document.getElementById('searchInput');
+            const modal = document.getElementById('imageModal');
+            const modalImage = document.getElementById('modalImage');
+            const downloadLink = document.getElementById('downloadLink');
+            const closeModal = document.querySelector('.close');
+
+            // --- Wallpaper Data (Replace with your own images and tags) ---
+            // You can host your images on a service like Cloudinary, Imgur, or your own server.
+            // For a real site, you'd likely fetch this from a database/API.
+            const wallpapers = [
+                { src: 'https://picsum.photos/id/10/800/600', tags: ['nature', 'mountain', 'lake'] },
+                { src: 'https://picsum.photos/id/20/800/600', tags: ['city', 'urban', 'lights'] },
+                { src: 'https://picsum.photos/id/30/800/600', tags: ['abstract', 'art', 'colorful'] },
+                { src: 'https://picsum.photos/id/42/800/600', tags: ['nature', 'forest', 'green'] },
+                { src: 'https://picsum.photos/id/54/800/600', tags: ['animal', 'cat', 'pet'] },
+                { src: 'https://picsum.photos/id/65/800/600', tags: ['space', 'galaxy', 'stars'] },
+                { src: 'https://picsum.photos/id/76/800/600', tags: ['beach', 'ocean', 'summer'] },
+                { src: 'https://picsum.photos/id/88/800/600', tags: ['technology', 'code', 'computer'] },
+                { src: 'https://picsum.photos/id/91/800/600', tags: ['food', 'coffee', 'morning'] },
+                { src: 'https://picsum.photos/id/101/800/600', tags: ['architecture', 'building', 'city'] },
+                { src: 'https://picsum.photos/id/111/800/600', tags: ['car', 'sports', 'drive'] },
+                { src: 'https://picsum.photos/id/122/800/600', tags: ['nature', 'flower', 'spring'] },
+            ];
+
+            // --- Functions ---
+            const displayWallpapers = (filteredWallpapers) => {
+                wallpaperGrid.innerHTML = ''; // Clear existing wallpapers
+                filteredWallpapers.forEach(wallpaper => {
+                    const item = document.createElement('div');
+                    item.className = 'wallpaper-item';
+                    
+                    const img = document.createElement('img');
+                    img.src = wallpaper.src;
+                    img.alt = wallpaper.tags.join(', ');
+                    img.loading = 'lazy'; // Lazy load images
+
+                    item.appendChild(img);
+                    wallpaperGrid.appendChild(item);
+
+                    // Add click event to open modal
+                    item.addEventListener('click', () => openModal(wallpaper.src));
+                });
+            };
+
+            const filterWallpapers = () => {
+                const query = searchInput.value.toLowerCase();
+                const filtered = wallpapers.filter(wallpaper => 
+                    wallpaper.tags.some(tag => tag.toLowerCase().includes(query))
+                );
+                displayWallpapers(filtered);
+            };
+
+            const openModal = (src) => {
+                modal.style.display = 'flex';
+                modalImage.src = src;
+                downloadLink.href = src;
+            };
+
+            const closeTheModal = () => {
+                modal.style.display = 'none';
+            };
+
+            // --- Event Listeners ---
+            searchInput.addEventListener('input', filterWallpapers);
+            closeModal.addEventListener('click', closeTheModal);
+            
+            // Close modal if user clicks outside the image
+            window.addEventListener('click', (event) => {
+                if (event.target === modal) {
+                    closeTheModal();
+                }
+            });
+            
+            // Close modal with Escape key
+            document.addEventListener('keydown', (event) => {
+                if (event.key === "Escape") {
+                    closeTheModal();
+                }
+            });
+
+
+            // --- Initial Load ---
+            displayWallpapers(wallpapers);
+        });
+    </script>
 </body>
 </html>
