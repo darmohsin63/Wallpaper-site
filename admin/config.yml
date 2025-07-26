@@ -1,19 +1,41 @@
-
+# This is the backend configuration. It tells the CMS how to connect to your GitHub repo.
 backend:
-  name: git-gateway
-  branch: main
+  name: git-gateway # Use Netlify's Git Gateway for authentication
+  branch: main # The branch to update. Use 'main' or 'master' depending on your repo.
 
-media_folder: "images/uploads"
-public_folder: "/images/uploads"
+# This is where the CMS will upload images and other media files.
+# Make sure the 'public_folder' path is relative to your site's root.
+media_folder: "assets/images" # Folder where media files will be stored
+public_folder: "/assets/images" # The src attribute for the media file
 
+# This is the core of the CMS. A "collection" is a type of content you want to manage.
+# For example, you might have collections for "pages", "blog posts", "team members", etc.
 collections:
-  - name: "wallpapers"
-    label: "Wallpapers"
-    folder: "content/wallpapers"
-    create: true
-    slug: "{{slug}}"
-    fields:
-      - {label: "Title", name: "title", widget: "string"}
-      - {label: "Category", name: "category", widget: "select", options: ["Nature", "Abstract", "Technology", "Animals", "Movies"]}
-      - {label: "Image", name: "image", widget: "image"}
-      - {label: "Video (optional)", name: "video", widget: "string", required: false}
+  # COLLECTION 1: A single page (e.g., your Homepage)
+  # This is a "file collection", used for unique documents.
+  - name: "pages" # A unique name for the collection
+    label: "Pages" # The name that appears in the admin UI
+    files:
+      - file: "index.html" # Path to the file from the root of your repo
+        label: "Home Page" # Label for this specific file in the UI
+        name: "home" # Unique name for this file
+        fields: # Define the editable fields for this file
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Body", name: "body", widget: "markdown" }
+          # You would need to update your index.html to use these fields.
+          # This is often easier if your pages are built from Markdown files.
+          # If your site is pure HTML, you might need a static site generator
+          # to effectively use this. For now, this shows the concept.
+
+  # COLLECTION 2: A folder of similar items (e.g., Blog Posts)
+  # This is a "folder collection", used for multiple entries like posts or projects.
+  - name: "blog" # Unique name for the collection
+    label: "Blog" # Name in the UI
+    folder: "_posts" # The folder in your repo where blog posts are stored
+    create: true # Allow users to create new documents in this collection
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}" # Filename template for new posts
+    fields: # The fields for each blog post
+      - { label: "Layout", name: "layout", widget: "hidden", default: "post" }
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Publish Date", name: "date", widget: "datetime" }
+      - { label: "Body", name: "body", widget: "markdown" }
