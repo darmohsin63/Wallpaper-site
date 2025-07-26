@@ -3,268 +3,485 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WallArt</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>AuraWalls | Futuristic Wallpapers</title>
     <style>
-        /* --- General Styles --- */
+        /* CSS Variables for easy theme management */
         :root {
-            --primary-color: #1a1a1a;
-            --secondary-color: #2b2b2b;
-            --text-color: #e0e0e0;
-            --accent-color: #007bff;
+            --primary-color: #ffffff;
+            --secondary-color: #d1d1d1;
+            --accent-color: #00f2fe;
+            --background-start: #0a0a14;
+            --background-end: #121222;
+            --glass-color: rgba(255, 255, 255, 0.05);
+            --font-family: 'Inter', sans-serif; /* A clean, modern font */
+        }
+
+        /* Basic Reset and Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--primary-color);
-            color: var(--text-color);
-            margin: 0;
-            padding: 20px;
-        }
-
-        /* --- Header & Search Bar --- */
-        header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-        }
-
-        .search-container {
+            font-family: var(--font-family);
+            color: var(--primary-color);
+            background: linear-gradient(135deg, var(--background-start), var(--background-end));
+            line-height: 1.6;
+            overflow-x: hidden;
             position: relative;
-            display: inline-block;
         }
 
-        #searchInput {
-            width: 300px;
-            padding: 12px 40px 12px 15px;
-            border-radius: 25px;
-            border: 1px solid var(--secondary-color);
-            background-color: var(--secondary-color);
-            color: var(--text-color);
+        /* Animated Aurora Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 15% 25%, rgba(0, 242, 254, 0.15), transparent 40%),
+                radial-gradient(circle at 85% 75%, rgba(138, 43, 226, 0.15), transparent 40%);
+            animation: aurora 20s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes aurora {
+            0% { transform: rotate(0deg) scale(1.2); }
+            100% { transform: rotate(360deg) scale(1.2); }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* ==================== HEADER ==================== */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 1.5rem 0;
+            transition: all 0.3s ease-in-out;
+        }
+
+        header.scrolled {
+            padding: 0.8rem 0;
+            background: rgba(18, 18, 34, 0.8); /* Darker on scroll */
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--accent-color);
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+        }
+
+        .nav-links li {
+            margin-left: 2.5rem;
+        }
+
+        .nav-links a {
+            color: var(--secondary-color);
+            text-decoration: none;
             font-size: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+
+        /* ==================== HERO SECTION ==================== */
+        #hero {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 70vh;
+            text-align: center;
+            padding: 0 2rem;
+            /* Replace this with a high-quality featured wallpaper */
+            background: linear-gradient(rgba(18,18,34,0.7), rgba(18,18,34,0.7)), url('https://picsum.photos/seed/hero/1920/1080') no-repeat center center/cover;
+            position: relative;
+        }
+        
+        #hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        }
+
+        #hero p {
+            font-size: 1.2rem;
+            color: var(--secondary-color);
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+        }
+        
+        .search-bar {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+        }
+        
+        .search-bar input {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            padding-right: 4rem; /* space for icon */
+            font-size: 1rem;
+            color: var(--primary-color);
+            background: var(--glass-color);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            backdrop-filter: blur(5px);
             outline: none;
+            transition: border-color 0.3s ease;
+        }
+        
+        .search-bar input::placeholder {
+            color: var(--secondary-color);
+        }
+        
+        .search-bar input:focus {
+            border-color: var(--accent-color);
+        }
+
+        .search-bar .search-icon {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5rem;
+            color: var(--secondary-color);
+        }
+
+        /* ==================== GALLERY SECTION ==================== */
+        #gallery {
+            padding: 6rem 0;
+        }
+        
+        .filter-buttons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 4rem;
+        }
+        
+        .filter-btn {
+            padding: 0.6rem 1.5rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--secondary-color);
+            background: var(--glass-color);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            cursor: pointer;
             transition: all 0.3s ease;
         }
-
-        #searchInput:focus {
+        
+        .filter-btn:hover {
+            background: var(--accent-color);
+            color: var(--background-start);
             border-color: var(--accent-color);
-            box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
         }
-
-        .search-container .fa-search {
-            position: absolute;
-            top: 50%;
-            right: 15px;
-            transform: translateY(-50%);
-            color: #888;
+        
+        .filter-btn.active {
+            background: var(--accent-color);
+            color: var(--background-start);
+            border-color: var(--accent-color);
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.3);
         }
-
-        /* --- Wallpaper Grid --- */
+        
         .wallpaper-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
+            gap: 1.5rem;
         }
 
         .wallpaper-item {
             position: relative;
             overflow: hidden;
-            border-radius: 12px;
+            border-radius: 15px;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            transform: scale(1);
         }
-
+        
+        /* JS will add this class for filtering */
+        .wallpaper-item.hide {
+            transform: scale(0.8);
+            opacity: 0;
+            display: none;
+        }
+        
         .wallpaper-item img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             display: block;
-            transition: transform 0.3s ease;
-        }
-
-        .wallpaper-item:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 25px rgba(0, 123, 255, 0.4);
+            transition: transform 0.4s ease;
         }
 
         .wallpaper-item:hover img {
             transform: scale(1.1);
         }
-
-        /* --- Modal Styles --- */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.9);
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-content {
-            margin: auto;
-            display: block;
-            max-width: 85vw;
-            max-height: 85vh;
-            border-radius: 5px;
-        }
-
-        .close {
+        
+        .wallpaper-overlay {
             position: absolute;
-            top: 20px;
-            right: 35px;
-            color: #f1f1f1;
-            font-size: 40px;
-            font-weight: bold;
-            transition: 0.3s;
-            cursor: pointer;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 2rem 1.5rem 1.5rem 1.5rem;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            color: white;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
         }
 
-        .close:hover,
-        .close:focus {
-            color: #bbb;
+        .wallpaper-item:hover .wallpaper-overlay {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .wallpaper-title {
+            font-size: 1.1rem;
+            font-weight: 600;
         }
 
         .download-btn {
-            position: absolute;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: var(--accent-color);
-            color: white;
-            padding: 12px 24px;
-            text-decoration: none;
-            border-radius: 25px;
-            font-size: 1rem;
-            transition: background-color 0.3s ease;
             display: flex;
             align-items: center;
-            gap: 10px;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: var(--glass-color);
+            backdrop-filter: blur(5px);
+            border-radius: 50%;
+            text-decoration: none;
+            color: white;
+            font-size: 1.2rem;
+            transition: background 0.3s ease;
         }
 
         .download-btn:hover {
-            background-color: #0056b3;
+            background: var(--accent-color);
+            color: var(--background-start);
         }
+        
+        /* ==================== FOOTER ==================== */
+        footer {
+            background: transparent;
+            padding: 3rem 0;
+            margin-top: 4rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+        
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+        .footer-logo span { color: var(--accent-color); }
+        
+        .footer-text {
+            color: var(--secondary-color);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none; /* In a real project, replace with a hamburger menu */
+            }
+            #hero h1 {
+                font-size: 2.5rem;
+            }
+            .wallpaper-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>WallArt 🖼️</h1>
-        <div class="search-container">
-            <input type="text" id="searchInput" placeholder="Search wallpapers (e.g., nature, city)...">
-            <i class="fas fa-search"></i>
-        </div>
+    <header id="header">
+        <nav class="container navbar">
+            <a href="#" class="logo">Aura<span>Walls</span></a>
+            <ul class="nav-links">
+                <li><a href="#hero">Home</a></li>
+                <li><a href="#gallery">Gallery</a></li>
+                <li><a href="#">Trending</a></li>
+                <li><a href="#">Upload</a></li>
+            </ul>
+        </nav>
     </header>
 
-    <main id="wallpaper-grid" class="wallpaper-grid">
-        </main>
+    <main>
 
-    <div id="imageModal" class="modal">
-        <span class="close">&times;</span>
-        <img class="modal-content" id="modalImage">
-        <a class="download-btn" id="downloadLink" download>
-            <i class="fas fa-download"></i> Download
-        </a>
-    </div>
+        <section id="hero">
+            <h1>Your Portal to Stunning Visuals</h1>
+            <p>Discover thousands of AI-generated and artist-crafted wallpapers in ultra-high resolution.</p>
+            <div class="search-bar">
+                <input type="text" placeholder="Search for nature, sci-fi, abstract...">
+                <div class="search-icon">🔍</div>
+            </div>
+        </section>
+
+        <section id="gallery" class="container">
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="nature">Nature</button>
+                <button class="filter-btn" data-filter="scifi">Sci-Fi</button>
+                <button class="filter-btn" data-filter="abstract">Abstract</button>
+                <button class="filter-btn" data-filter="minimal">Minimalist</button>
+            </div>
+            
+            <div class="wallpaper-grid">
+                <div class="wallpaper-item" data-filter="scifi">
+                    <img src="https://picsum.photos/seed/space/400/600" alt="Sci-Fi Wallpaper">
+                    <div class="wallpaper-overlay">
+                        <span class="wallpaper-title">Cosmic Reef</span>
+                        <a href="#" class="download-btn" title="Download">↓</a>
+                    </div>
+                </div>
+                <div class="wallpaper-item" data-filter="nature">
+                    <img src="https://picsum.photos/seed/mountain/400/500" alt="Nature Wallpaper">
+                    <div class="wallpaper-overlay">
+                        <span class="wallpaper-title">Misty Peaks</span>
+                        <a href="#" class="download-btn" title="Download">↓</a>
+                    </div>
+                </div>
+                <div class="wallpaper-item" data-filter="abstract">
+                    <img src="https://picsum.photos/seed/abstract1/400/550" alt="Abstract Wallpaper">
+                    <div class="wallpaper-overlay">
+                        <span class="wallpaper-title">Liquid Dream</span>
+                        <a href="#" class="download-btn" title="Download">↓</a>
+                    </div>
+                </div>
+                <div class="wallpaper-item" data-filter="minimal">
+                    <img src="https://picsum.photos/seed/minimal1/400/600" alt="Minimalist Wallpaper">
+                    <div class="wallpaper-overlay">
+                        <span class="wallpaper-title">Mono Line</span>
+                        <a href="#" class="download-btn" title="Download">↓</a>
+                    </div>
+                </div>
+                 <div class="wallpaper-item" data-filter="nature">
+                    <img src="https://picsum.photos/seed/forest/400/580" alt="Nature Wallpaper">
+                    <div class="wallpaper-overlay">
+                        <span class="wallpaper-title">Emerald Woods</span>
+                        <a href="#" class="download-btn" title="Download">↓</a>
+                    </div>
+                </div>
+                <div class="wallpaper-item" data-filter="scifi">
+                    <img src="https://picsum.photos/seed/cyber/400/520" alt="Sci-Fi Wallpaper">
+                    <div class="wallpaper-overlay">
+                        <span class="wallpaper-title">Neon City</span>
+                        <a href="#" class="download-btn" title="Download">↓</a>
+                    </div>
+                </div>
+                <div class="wallpaper-item" data-filter="minimal">
+                    <img src="https://picsum.photos/seed/minimal2/400/540" alt="Minimalist Wallpaper">
+                    <div class="wallpaper-overlay">
+                        <span class="wallpaper-title">Soft Gradient</span>
+                        <a href="#" class="download-btn" title="Download">↓</a>
+                    </div>
+                </div>
+                <div class="wallpaper-item" data-filter="abstract">
+                    <img src="https://picsum.photos/seed/abstract2/400/610" alt="Abstract Wallpaper">
+                    <div class="wallpaper-overlay">
+                        <span class="wallpaper-title">Ink Flow</span>
+                        <a href="#" class="download-btn" title="Download">↓</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-logo">Aura<span>Walls</span></div>
+            <p class="footer-text">&copy; 2025 AuraWalls. All Rights Reserved. The future of digital scenery.</p>
+        </div>
+    </footer>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const wallpaperGrid = document.getElementById('wallpaper-grid');
-            const searchInput = document.getElementById('searchInput');
-            const modal = document.getElementById('imageModal');
-            const modalImage = document.getElementById('modalImage');
-            const downloadLink = document.getElementById('downloadLink');
-            const closeModal = document.querySelector('.close');
+        document.addEventListener('DOMContentLoaded', function() {
 
-            // --- Wallpaper Data (Replace with your own images and tags) ---
-            // You can host your images on a service like Cloudinary, Imgur, or your own server.
-            // For a real site, you'd likely fetch this from a database/API.
-            const wallpapers = [
-                { src: 'https://picsum.photos/id/10/800/600', tags: ['nature', 'mountain', 'lake'] },
-                { src: 'https://picsum.photos/id/20/800/600', tags: ['city', 'urban', 'lights'] },
-                { src: 'https://picsum.photos/id/30/800/600', tags: ['abstract', 'art', 'colorful'] },
-                { src: 'https://picsum.photos/id/42/800/600', tags: ['nature', 'forest', 'green'] },
-                { src: 'https://picsum.photos/id/54/800/600', tags: ['animal', 'cat', 'pet'] },
-                { src: 'https://picsum.photos/id/65/800/600', tags: ['space', 'galaxy', 'stars'] },
-                { src: 'https://picsum.photos/id/76/800/600', tags: ['beach', 'ocean', 'summer'] },
-                { src: 'https://picsum.photos/id/88/800/600', tags: ['technology', 'code', 'computer'] },
-                { src: 'https://picsum.photos/id/91/800/600', tags: ['food', 'coffee', 'morning'] },
-                { src: 'https://picsum.photos/id/101/800/600', tags: ['architecture', 'building', 'city'] },
-                { src: 'https://picsum.photos/id/111/800/600', tags: ['car', 'sports', 'drive'] },
-                { src: 'https://picsum.photos/id/122/800/600', tags: ['nature', 'flower', 'spring'] },
-            ];
-
-            // --- Functions ---
-            const displayWallpapers = (filteredWallpapers) => {
-                wallpaperGrid.innerHTML = ''; // Clear existing wallpapers
-                filteredWallpapers.forEach(wallpaper => {
-                    const item = document.createElement('div');
-                    item.className = 'wallpaper-item';
-                    
-                    const img = document.createElement('img');
-                    img.src = wallpaper.src;
-                    img.alt = wallpaper.tags.join(', ');
-                    img.loading = 'lazy'; // Lazy load images
-
-                    item.appendChild(img);
-                    wallpaperGrid.appendChild(item);
-
-                    // Add click event to open modal
-                    item.addEventListener('click', () => openModal(wallpaper.src));
-                });
-            };
-
-            const filterWallpapers = () => {
-                const query = searchInput.value.toLowerCase();
-                const filtered = wallpapers.filter(wallpaper => 
-                    wallpaper.tags.some(tag => tag.toLowerCase().includes(query))
-                );
-                displayWallpapers(filtered);
-            };
-
-            const openModal = (src) => {
-                modal.style.display = 'flex';
-                modalImage.src = src;
-                downloadLink.href = src;
-            };
-
-            const closeTheModal = () => {
-                modal.style.display = 'none';
-            };
-
-            // --- Event Listeners ---
-            searchInput.addEventListener('input', filterWallpapers);
-            closeModal.addEventListener('click', closeTheModal);
-            
-            // Close modal if user clicks outside the image
-            window.addEventListener('click', (event) => {
-                if (event.target === modal) {
-                    closeTheModal();
-                }
-            });
-            
-            // Close modal with Escape key
-            document.addEventListener('keydown', (event) => {
-                if (event.key === "Escape") {
-                    closeTheModal();
+            // --- Header scroll effect ---
+            const header = document.getElementById('header');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
                 }
             });
 
+            // --- Gallery Filtering Logic ---
+            const filterContainer = document.querySelector('.filter-buttons');
+            const galleryItems = document.querySelectorAll('.wallpaper-item');
 
-            // --- Initial Load ---
-            displayWallpapers(wallpapers);
+            filterContainer.addEventListener('click', (event) => {
+                if (event.target.classList.contains('filter-btn')) {
+                    // Remove active class from all buttons
+                    filterContainer.querySelector('.active').classList.remove('active');
+                    // Add active class to clicked button
+                    event.target.classList.add('active');
+
+                    const filterValue = event.target.getAttribute('data-filter');
+
+                    galleryItems.forEach(item => {
+                        const itemCategory = item.getAttribute('data-filter');
+                        
+                        // A short delay for the animation to work
+                        setTimeout(() => {
+                           if (filterValue === 'all' || filterValue === itemCategory) {
+                                item.classList.remove('hide');
+                            } else {
+                                item.classList.add('hide');
+                            }
+                        }, 10);
+                    });
+                }
+            });
         });
+        
+        console.log("AuraWalls Initialized 🚀");
     </script>
+
 </body>
 </html>
