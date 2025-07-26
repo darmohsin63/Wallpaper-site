@@ -5,361 +5,60 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AuraWalls | Futuristic Wallpapers</title>
     <style>
-        /* CSS Variables for easy theme management */
-        :root {
-            --primary-color: #ffffff;
-            --secondary-color: #d1d1d1;
-            --accent-color: #00f2fe;
-            --background-start: #0a0a14;
-            --background-end: #121222;
-            --glass-color: rgba(255, 255, 255, 0.05);
-            --font-family: 'Inter', sans-serif; /* A clean, modern font */
-        }
-
-        /* Basic Reset and Global Styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: var(--font-family);
-            color: var(--primary-color);
-            background: linear-gradient(135deg, var(--background-start), var(--background-end));
-            line-height: 1.6;
-            overflow-x: hidden;
-            position: relative;
-        }
-
-        /* Animated Aurora Background */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 15% 25%, rgba(0, 242, 254, 0.15), transparent 40%),
-                radial-gradient(circle at 85% 75%, rgba(138, 43, 226, 0.15), transparent 40%);
-            animation: aurora 20s linear infinite;
-            z-index: -1;
-        }
-
-        @keyframes aurora {
-            0% { transform: rotate(0deg) scale(1.2); }
-            100% { transform: rotate(360deg) scale(1.2); }
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        /* ==================== HEADER ==================== */
-        header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-            padding: 1.5rem 0;
-            transition: all 0.3s ease-in-out;
-        }
-
-        header.scrolled {
-            padding: 0.8rem 0;
-            background: rgba(18, 18, 34, 0.8); /* Darker on scroll */
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--primary-color);
-            text-decoration: none;
-        }
-
-        .logo span {
-            color: var(--accent-color);
-        }
-
-        .nav-links {
-            list-style: none;
-            display: flex;
-        }
-
-        .nav-links li {
-            margin-left: 2.5rem;
-        }
-
-        .nav-links a {
-            color: var(--secondary-color);
-            text-decoration: none;
-            font-size: 1rem;
-            transition: color 0.3s ease;
-        }
-
-        .nav-links a:hover {
-            color: var(--accent-color);
-        }
-
-        /* ==================== HERO SECTION ==================== */
-        #hero {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 70vh;
-            text-align: center;
-            padding: 0 2rem;
-            /* Replace this with a high-quality featured wallpaper */
-            background: linear-gradient(rgba(18,18,34,0.7), rgba(18,18,34,0.7)), url('https://picsum.photos/seed/hero/1920/1080') no-repeat center center/cover;
-            position: relative;
-        }
-        
-        #hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            text-shadow: 0 4px 15px rgba(0,0,0,0.4);
-        }
-
-        #hero p {
-            font-size: 1.2rem;
-            color: var(--secondary-color);
-            margin-bottom: 2.5rem;
-            max-width: 600px;
-        }
-        
-        .search-bar {
-            position: relative;
-            width: 100%;
-            max-width: 500px;
-        }
-        
-        .search-bar input {
-            width: 100%;
-            padding: 1rem 1.5rem;
-            padding-right: 4rem; /* space for icon */
-            font-size: 1rem;
-            color: var(--primary-color);
-            background: var(--glass-color);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 50px;
-            backdrop-filter: blur(5px);
-            outline: none;
-            transition: border-color 0.3s ease;
-        }
-        
-        .search-bar input::placeholder {
-            color: var(--secondary-color);
-        }
-        
-        .search-bar input:focus {
-            border-color: var(--accent-color);
-        }
-
-        .search-bar .search-icon {
-            position: absolute;
-            right: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 1.5rem;
-            color: var(--secondary-color);
-        }
-
-        /* ==================== GALLERY SECTION ==================== */
-        #gallery {
-            padding: 6rem 0;
-        }
-        
-        .filter-buttons {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-            margin-bottom: 4rem;
-        }
-        
-        .filter-btn {
-            padding: 0.6rem 1.5rem;
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: var(--secondary-color);
-            background: var(--glass-color);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .filter-btn:hover {
-            background: var(--accent-color);
-            color: var(--background-start);
-            border-color: var(--accent-color);
-        }
-        
-        .filter-btn.active {
-            background: var(--accent-color);
-            color: var(--background-start);
-            border-color: var(--accent-color);
-            box-shadow: 0 0 15px rgba(0, 242, 254, 0.3);
-        }
-        
-        .wallpaper-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .wallpaper-item {
-            position: relative;
-            overflow: hidden;
-            border-radius: 15px;
-            cursor: pointer;
-            transition: opacity 0.4s ease, transform 0.4s ease;
-            transform: scale(1);
-        }
-        
-        /* JS will add this class for filtering */
-        .wallpaper-item.hide {
-            transform: scale(0.8);
-            opacity: 0;
-            display: none;
-        }
-        
-        .wallpaper-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-            transition: transform 0.4s ease;
-        }
-
-        .wallpaper-item:hover img {
-            transform: scale(1.1);
-        }
-        
-        .wallpaper-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 2rem 1.5rem 1.5rem 1.5rem;
-            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
-            color: white;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.4s ease;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-        }
-
-        .wallpaper-item:hover .wallpaper-overlay {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .wallpaper-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-        }
-
-        .download-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            background: var(--glass-color);
-            backdrop-filter: blur(5px);
-            border-radius: 50%;
-            text-decoration: none;
-            color: white;
-            font-size: 1.2rem;
-            transition: background 0.3s ease;
-        }
-
-        .download-btn:hover {
-            background: var(--accent-color);
-            color: var(--background-start);
-        }
-        
-        /* ==================== FOOTER ==================== */
-        footer {
-            background: transparent;
-            padding: 3rem 0;
-            margin-top: 4rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            text-align: center;
-        }
-        
-        .footer-logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-        }
+        /* All CSS remains exactly the same as before */
+        :root { --primary-color: #ffffff; --secondary-color: #d1d1d1; --accent-color: #00f2fe; --background-start: #0a0a14; --background-end: #121222; --glass-color: rgba(255, 255, 255, 0.05); --font-family: 'Inter', sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--font-family); color: var(--primary-color); background: linear-gradient(135deg, var(--background-start), var(--background-end)); line-height: 1.6; overflow-x: hidden; position: relative; }
+        body::before { content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 15% 25%, rgba(0, 242, 254, 0.15), transparent 40%), radial-gradient(circle at 85% 75%, rgba(138, 43, 226, 0.15), transparent 40%); animation: aurora 20s linear infinite; z-index: -1; }
+        @keyframes aurora { 0% { transform: rotate(0deg) scale(1.2); } 100% { transform: rotate(360deg) scale(1.2); } }
+        .container { max-width: 1400px; margin: 0 auto; padding: 0 2rem; }
+        header { position: fixed; top: 0; width: 100%; z-index: 1000; padding: 1.5rem 0; transition: all 0.3s ease-in-out; }
+        header.scrolled { padding: 0.8rem 0; background: rgba(18, 18, 34, 0.8); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        .navbar { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.8rem; font-weight: 700; color: var(--primary-color); text-decoration: none; }
+        .logo span { color: var(--accent-color); }
+        .nav-links { list-style: none; display: flex; }
+        .nav-links li { margin-left: 2.5rem; }
+        .nav-links a { color: var(--secondary-color); text-decoration: none; font-size: 1rem; transition: color 0.3s ease; }
+        .nav-links a:hover { color: var(--accent-color); }
+        #hero { display: flex; flex-direction: column; justify-content: center; align-items: center; height: 70vh; text-align: center; padding: 0 2rem; background: linear-gradient(rgba(18,18,34,0.7), rgba(18,18,34,0.7)), url('https://picsum.photos/seed/hero/1920/1080') no-repeat center center/cover; position: relative; }
+        #hero h1 { font-size: 3.5rem; margin-bottom: 1rem; text-shadow: 0 4px 15px rgba(0,0,0,0.4); }
+        #hero p { font-size: 1.2rem; color: var(--secondary-color); margin-bottom: 2.5rem; max-width: 600px; }
+        .search-bar { position: relative; width: 100%; max-width: 500px; }
+        .search-bar input { width: 100%; padding: 1rem 1.5rem; padding-right: 4rem; font-size: 1rem; color: var(--primary-color); background: var(--glass-color); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 50px; backdrop-filter: blur(5px); outline: none; transition: border-color 0.3s ease; }
+        .search-bar input::placeholder { color: var(--secondary-color); }
+        .search-bar input:focus { border-color: var(--accent-color); }
+        .search-bar .search-icon { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); font-size: 1.5rem; color: var(--secondary-color); }
+        #gallery { padding: 6rem 0; }
+        .filter-buttons { display: flex; justify-content: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 4rem; }
+        .filter-btn { padding: 0.6rem 1.5rem; font-size: 0.9rem; font-weight: 500; color: var(--secondary-color); background: var(--glass-color); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 50px; cursor: pointer; transition: all 0.3s ease; }
+        .filter-btn:hover { background: var(--accent-color); color: var(--background-start); border-color: var(--accent-color); }
+        .filter-btn.active { background: var(--accent-color); color: var(--background-start); border-color: var(--accent-color); box-shadow: 0 0 15px rgba(0, 242, 254, 0.3); }
+        .wallpaper-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
+        .wallpaper-item { position: relative; overflow: hidden; border-radius: 15px; cursor: pointer; transition: opacity 0.4s ease, transform 0.4s ease; transform: scale(1); }
+        .wallpaper-item.hide { transform: scale(0.8); opacity: 0; display: none; }
+        .wallpaper-item img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s ease; }
+        .wallpaper-item:hover img { transform: scale(1.1); }
+        .wallpaper-overlay { position: absolute; bottom: 0; left: 0; right: 0; padding: 2rem 1.5rem 1.5rem 1.5rem; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); color: white; opacity: 0; transform: translateY(20px); transition: all 0.4s ease; display: flex; justify-content: space-between; align-items: flex-end; }
+        .wallpaper-item:hover .wallpaper-overlay { opacity: 1; transform: translateY(0); }
+        .wallpaper-title { font-size: 1.1rem; font-weight: 600; }
+        .download-btn { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: var(--glass-color); backdrop-filter: blur(5px); border-radius: 50%; text-decoration: none; color: white; font-size: 1.2rem; transition: background 0.3s ease; }
+        .download-btn:hover { background: var(--accent-color); color: var(--background-start); }
+        footer { background: transparent; padding: 3rem 0; margin-top: 4rem; border-top: 1px solid rgba(255, 255, 255, 0.1); text-align: center; }
+        .footer-logo { font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; }
         .footer-logo span { color: var(--accent-color); }
-        
-        .footer-text {
-            color: var(--secondary-color);
-            font-size: 0.9rem;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none; /* In a real project, replace with a hamburger menu */
-            }
-            #hero h1 {
-                font-size: 2.5rem;
-            }
-            .wallpaper-grid {
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            }
-        }
-
+        .footer-text { color: var(--secondary-color); font-size: 0.9rem; }
+        @media (max-width: 768px) { .nav-links { display: none; } #hero h1 { font-size: 2.5rem; } .wallpaper-grid { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); } }
     </style>
 </head>
 <body>
 
-    <header id="header">
-        <nav class="container navbar">
-            <a href="#" class="logo">Aura<span>Walls</span></a>
-            <ul class="nav-links">
-                <li><a href="#hero">Home</a></li>
-                <li><a href="#gallery">Gallery</a></li>
-                <li><a href="#">Trending</a></li>
-                <li><a href="#">Upload</a></li>
-            </ul>
-        </nav>
-    </header>
+    <header id="header"></header>
 
     <main>
-
-        <section id="hero">
-            <h1>Your Portal to Stunning Visuals</h1>
-            <p>Discover thousands of AI-generated and artist-crafted wallpapers in ultra-high resolution.</p>
-            <div class="search-bar">
-                <input type="text" placeholder="Search for nature, sci-fi, abstract...">
-                <div class="search-icon">🔍</div>
-            </div>
-        </section>
-
+        <section id="hero"></section>
+        
         <section id="gallery" class="container">
             <div class="filter-buttons">
                 <button class="filter-btn active" data-filter="all">All</button>
@@ -370,117 +69,131 @@
             </div>
             
             <div class="wallpaper-grid">
-                <div class="wallpaper-item" data-filter="scifi">
-                    <img src="https://picsum.photos/seed/space/400/600" alt="Sci-Fi Wallpaper">
-                    <div class="wallpaper-overlay">
-                        <span class="wallpaper-title">Cosmic Reef</span>
-                        <a href="#" class="download-btn" title="Download">↓</a>
-                    </div>
                 </div>
-                <div class="wallpaper-item" data-filter="nature">
-                    <img src="https://picsum.photos/seed/mountain/400/500" alt="Nature Wallpaper">
-                    <div class="wallpaper-overlay">
-                        <span class="wallpaper-title">Misty Peaks</span>
-                        <a href="#" class="download-btn" title="Download">↓</a>
-                    </div>
-                </div>
-                <div class="wallpaper-item" data-filter="abstract">
-                    <img src="https://picsum.photos/seed/abstract1/400/550" alt="Abstract Wallpaper">
-                    <div class="wallpaper-overlay">
-                        <span class="wallpaper-title">Liquid Dream</span>
-                        <a href="#" class="download-btn" title="Download">↓</a>
-                    </div>
-                </div>
-                <div class="wallpaper-item" data-filter="minimal">
-                    <img src="https://picsum.photos/seed/minimal1/400/600" alt="Minimalist Wallpaper">
-                    <div class="wallpaper-overlay">
-                        <span class="wallpaper-title">Mono Line</span>
-                        <a href="#" class="download-btn" title="Download">↓</a>
-                    </div>
-                </div>
-                 <div class="wallpaper-item" data-filter="nature">
-                    <img src="https://picsum.photos/seed/forest/400/580" alt="Nature Wallpaper">
-                    <div class="wallpaper-overlay">
-                        <span class="wallpaper-title">Emerald Woods</span>
-                        <a href="#" class="download-btn" title="Download">↓</a>
-                    </div>
-                </div>
-                <div class="wallpaper-item" data-filter="scifi">
-                    <img src="https://picsum.photos/seed/cyber/400/520" alt="Sci-Fi Wallpaper">
-                    <div class="wallpaper-overlay">
-                        <span class="wallpaper-title">Neon City</span>
-                        <a href="#" class="download-btn" title="Download">↓</a>
-                    </div>
-                </div>
-                <div class="wallpaper-item" data-filter="minimal">
-                    <img src="https://picsum.photos/seed/minimal2/400/540" alt="Minimalist Wallpaper">
-                    <div class="wallpaper-overlay">
-                        <span class="wallpaper-title">Soft Gradient</span>
-                        <a href="#" class="download-btn" title="Download">↓</a>
-                    </div>
-                </div>
-                <div class="wallpaper-item" data-filter="abstract">
-                    <img src="https://picsum.photos/seed/abstract2/400/610" alt="Abstract Wallpaper">
-                    <div class="wallpaper-overlay">
-                        <span class="wallpaper-title">Ink Flow</span>
-                        <a href="#" class="download-btn" title="Download">↓</a>
-                    </div>
-                </div>
-            </div>
         </section>
-
     </main>
 
-    <footer>
-        <div class="container">
-            <div class="footer-logo">Aura<span>Walls</span></div>
-            <p class="footer-text">&copy; 2025 Dar Mohsin. All Rights Reserved. The future of digital scenery.</p>
-        </div>
-    </footer>
+    <footer></footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
 
-            // --- Header scroll effect ---
+            // =================================================================
+            // STEP 1: YOUR WALLPAPER "DATABASE"
+            // To add a new wallpaper, just add a new object to this list!
+            // =================================================================
+            const wallpaperData = [
+                {
+                    title: 'Cosmic Reef',
+                    category: 'scifi',
+                    image: 'https://picsum.photos/seed/space/400/600',
+                    alt: 'A beautiful sci-fi cosmic reef'
+                },
+                {
+                    title: 'Misty Peaks',
+                    category: 'nature',
+                    image: 'https://picsum.photos/seed/mountain/400/500',
+                    alt: 'Misty mountains at dawn'
+                },
+                {
+                    title: 'Liquid Dream',
+                    category: 'abstract',
+                    image: 'https://picsum.photos/seed/abstract1/400/550',
+                    alt: 'Colorful abstract liquid swirls'
+                },
+                {
+                    title: 'Mono Line',
+                    category: 'minimal',
+                    image: 'https://picsum.photos/seed/minimal1/400/600',
+                    alt: 'A single minimalist line on a plain background'
+                },
+                {
+                    title: 'Emerald Woods',
+                    category: 'nature',
+                    image: 'https://picsum.photos/seed/forest/400/580',
+                    alt: 'Sunlight filtering through a green forest'
+                },
+                {
+                    title: 'Neon City',
+                    category: 'scifi',
+                    image: 'https://picsum.photos/seed/cyber/400/520',
+                    alt: 'A futuristic city with neon lights'
+                },
+                {
+                    title: 'Soft Gradient',
+                    category: 'minimal',
+                    image: 'https://picsum.photos/seed/minimal2/400/540',
+                    alt: 'A soft, minimalist gradient'
+                },
+                {
+                    title: 'Ink Flow',
+                    category: 'abstract',
+                    image: 'https://picsum.photos/seed/abstract2/400/610',
+                    alt: 'Black ink flowing in water'
+                },
+                // ✅ TO ADD YOUR OWN, COPY THE BLOCK BELOW AND FILL IT IN
+                // {
+                //     title: 'My Custom Wallpaper',
+                //     category: 'nature', // e.g., nature, scifi, etc.
+                //     image: 'images/my-cool-wallpaper.jpg', // Path to your image
+                //     alt: 'A description of my wallpaper'
+                // },
+            ];
+
+            // =================================================================
+            // STEP 2: THE "GENERATOR" SCRIPT (No need to edit this)
+            // This code reads your list above and builds the gallery.
+            // =================================================================
+            const galleryGrid = document.querySelector('.wallpaper-grid');
+            
+            function generateGallery() {
+                galleryGrid.innerHTML = ''; // Clear existing items
+                wallpaperData.forEach(wallpaper => {
+                    const item = document.createElement('div');
+                    item.classList.add('wallpaper-item');
+                    item.setAttribute('data-filter', wallpaper.category);
+
+                    item.innerHTML = `
+                        <img src="${wallpaper.image}" alt="${wallpaper.alt}">
+                        <div class="wallpaper-overlay">
+                            <span class="wallpaper-title">${wallpaper.title}</span>
+                            <a href="${wallpaper.image}" class="download-btn" title="Download" download>↓</a>
+                        </div>
+                    `;
+                    galleryGrid.appendChild(item);
+                });
+            }
+
+            // --- Generate the gallery when the page loads ---
+            generateGallery();
+
+
+            // --- Header scroll and Filter logic (remains the same) ---
             const header = document.getElementById('header');
             window.addEventListener('scroll', () => {
-                if (window.scrollY > 50) {
-                    header.classList.add('scrolled');
-                } else {
-                    header.classList.remove('scrolled');
-                }
+                if (window.scrollY > 50) header.classList.add('scrolled');
+                else header.classList.remove('scrolled');
             });
 
-            // --- Gallery Filtering Logic ---
             const filterContainer = document.querySelector('.filter-buttons');
-            const galleryItems = document.querySelectorAll('.wallpaper-item');
-
             filterContainer.addEventListener('click', (event) => {
                 if (event.target.classList.contains('filter-btn')) {
-                    // Remove active class from all buttons
                     filterContainer.querySelector('.active').classList.remove('active');
-                    // Add active class to clicked button
                     event.target.classList.add('active');
-
                     const filterValue = event.target.getAttribute('data-filter');
-
+                    const galleryItems = document.querySelectorAll('.wallpaper-item');
                     galleryItems.forEach(item => {
-                        const itemCategory = item.getAttribute('data-filter');
-                        
-                        // A short delay for the animation to work
-                        setTimeout(() => {
-                           if (filterValue === 'all' || filterValue === itemCategory) {
-                                item.classList.remove('hide');
-                            } else {
-                                item.classList.add('hide');
-                            }
-                        }, 10);
+                        if (filterValue === 'all' || item.getAttribute('data-filter') === filterValue) {
+                            item.classList.remove('hide');
+                        } else {
+                            item.classList.add('hide');
+                        }
                     });
                 }
             });
         });
         
-        console.log("AuraWalls Initialized 🚀");
+        console.log("AuraWalls Initialized with Easy-Edit Mode 🚀");
     </script>
 
 </body>
