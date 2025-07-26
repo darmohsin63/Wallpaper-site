@@ -181,6 +181,132 @@
             color: var(--secondary-color);
         }
 
+        /* ==================== TEXT-TO-IMAGE AI SECTION ==================== */
+        #text-to-image-ai {
+            padding: 6rem 0;
+            text-align: center;
+        }
+        #text-to-image-ai h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        #text-to-image-ai p {
+            color: var(--secondary-color);
+            max-width: 650px;
+            margin: 0 auto 3rem auto;
+        }
+        .ai-generator {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: center;
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: left;
+        }
+        .ai-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        .ai-controls textarea {
+            width: 100%;
+            height: 120px;
+            padding: 1rem;
+            font-family: var(--font-family);
+            font-size: 1rem;
+            color: var(--primary-color);
+            background: var(--glass-color);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+            outline: none;
+            transition: border-color 0.3s ease;
+            resize: none;
+        }
+        .ai-controls textarea:focus {
+            border-color: var(--accent-color);
+        }
+        .ai-controls textarea::placeholder {
+            color: var(--secondary-color);
+        }
+        .generate-btn {
+            padding: 1rem 1.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--background-start);
+            background: var(--accent-color);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(0, 242, 254, 0.3);
+        }
+        .generate-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 30px rgba(0, 242, 254, 0.5);
+        }
+        .prompt-suggestions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .suggestion-chip {
+            padding: 0.4rem 0.8rem;
+            font-size: 0.8rem;
+            color: var(--secondary-color);
+            background: var(--glass-color);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .suggestion-chip:hover {
+            color: var(--primary-color);
+            border-color: var(--accent-color);
+        }
+        .ai-image-output {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            background: var(--glass-color);
+            border-radius: 20px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        #generated-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 0.4s ease;
+        }
+        .loader {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(18, 18, 34, 0.8);
+            backdrop-filter: blur(5px);
+            display: none; /* Hidden by default */
+            align-items: center;
+            justify-content: center;
+        }
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255, 255, 255, 0.2);
+            border-top-color: var(--accent-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
         /* ==================== GALLERY SECTION ==================== */
         #gallery {
             padding: 6rem 0;
@@ -375,6 +501,9 @@
             #hero h1 {
                 font-size: 2.5rem;
             }
+            .ai-generator {
+                grid-template-columns: 1fr;
+            }
             .wallpaper-grid {
                 grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             }
@@ -389,6 +518,7 @@
             <a href="#" class="logo">Aura<span>Walls</span></a>
             <ul class="nav-links">
                 <li><a href="#hero">Home</a></li>
+                <li><a href="#text-to-image-ai">AI Creator</a></li>
                 <li><a href="#gallery">Gallery</a></li>
                 <li><a href="#">Trending</a></li>
                 <li><a href="#">Upload</a></li>
@@ -404,6 +534,29 @@
             <div class="search-bar">
                 <input type="text" placeholder="Search for nature, sci-fi, abstract...">
                 <div class="search-icon">🔍</div>
+            </div>
+        </section>
+
+        <section id="text-to-image-ai" class="container">
+            <h2>Create With AI</h2>
+            <p>Bring your imagination to life. Type anything you can dream of, and our AI will generate a unique visual masterpiece for you in seconds.</p>
+            <div class="ai-generator">
+                <div class="ai-controls">
+                    <textarea id="ai-prompt" placeholder="e.g., A crystal wolf howling at a neon moon, cinematic lighting, detailed..."></textarea>
+                    <div class="prompt-suggestions">
+                        <span class="suggestion-chip">Bioluminescent forest</span>
+                        <span class="suggestion-chip">Cyberpunk city in the rain</span>
+                        <span class="suggestion-chip">Floating islands at sunset</span>
+                        <span class="suggestion-chip">Galaxy inside a teacup</span>
+                    </div>
+                    <button id="generate-btn" class="generate-btn">Generate ✨</button>
+                </div>
+                <div class="ai-image-output">
+                    <div class="loader" id="loader">
+                        <div class="spinner"></div>
+                    </div>
+                    <img src="https://picsum.photos/seed/welcome-aura/512/512" alt="AI Generated Image" id="generated-image">
+                </div>
             </div>
         </section>
 
@@ -454,74 +607,4 @@
                 </div>
                 <div class="wallpaper-item" data-filter="scifi">
                     <img src="https://picsum.photos/seed/cyber/400/520" alt="Sci-Fi Wallpaper">
-                    <div class="wallpaper-overlay">
-                        <span class="wallpaper-title">Neon City</span>
-                        <a href="#" class="download-btn" title="Download">↓</a>
-                    </div>
-                </div>
-                <div class="wallpaper-item" data-filter="minimal">
-                    <img src="https://picsum.photos/seed/minimal2/400/540" alt="Minimalist Wallpaper">
-                    <div class="wallpaper-overlay">
-                        <span class="wallpaper-title">Soft Gradient</span>
-                        <a href="#" class="download-btn" title="Download">↓</a>
-                    </div>
-                </div>
-                <div class="wallpaper-item" data-filter="abstract">
-                    <img src="https://picsum.photos/seed/abstract2/400/610" alt="Abstract Wallpaper">
-                    <div class="wallpaper-overlay">
-                        <span class="wallpaper-title">Ink Flow</span>
-                        <a href="#" class="download-btn" title="Download">↓</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="contact" class="container">
-            <h2>Connect With Us</h2>
-            <div class="social-links">
-                <a href="https://www.instagram.com/darmohsin63?igsh=c210Zm9xb2NtZm1p" class="social-link" title="Instagram">
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.011 3.584-.069 4.85c-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.85-.07c-3.252-.148-4.771-1.691-4.919-4.919-.058-1.265-.069-1.645-.069-4.85s.011-3.584.069-4.85c.149-3.225 1.664-4.771 4.919-4.919C8.416 2.175 8.796 2.163 12 2.163m0-2.163C8.74 0 8.333.011 7.053.072 2.695.272.273 2.69.073 7.052.012 8.333 0 8.74 0 12s.012 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98C8.333 23.988 8.74 24 12 24s3.667-.012 4.947-.072c4.358-.2 6.78-2.618 6.98-6.98C23.988 15.667 24 15.26 24 12s-.012-3.667-.072-4.947c-.2-4.358-2.618-6.78-6.98-6.98C15.667.012 15.26 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.88 1.44 1.44 0 000-2.88z"/></svg>
-                </a>
-                <a href="https://t.me/D_evil63" class="social-link" title="Telegram">
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.91,3.74,20.4,19.93c-.4,1.82-1.42,2.25-2.93,1.4l-6.53-4.8L8,19.46c-.7.7-1.21.93-2.12.53s-1.42-1.21-1.21-2.12l2.33-7.58L.43,8.41C-1.39,7.59-.93,6.3.83,5.65L22,.53C23.57-.1,24.4,1.21,23.91,3.74Z"/></svg>
-                </a>
-                <a href="https://www.facebook.com/share/1EYjyFrqgN/?mibextid=qi2Omg" class="social-link" title="Facebook">
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.64c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"/></svg>
-                </a>
-                <a href="https://wa.me/+917051339087" class="social-link" title="WhatsApp">
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12.04 2.02c-5.46 0-9.91 4.44-9.91 9.91 0 1.75.46 3.49 1.32 5l-1.44 5.25 5.37-1.42c1.44.82 3.09 1.26 4.66 1.26h.01c5.46 0 9.91-4.44 9.91-9.91s-4.44-9.91-9.91-9.91zm0-2.02c6.63 0 12 5.37 12 12s-5.37 12-12 12c-1.99 0-3.87-.49-5.55-1.38l-6.45 1.71 1.74-6.32C.48 15.93 0 14.02 0 12.01 0 5.38 5.37 0 12.04 0h-.01zm4.88 14.03c-.28-.14-1.64-.81-1.9-1.02-.25-.14-.43-.22-.62.14-.18.36-.72.9-.88 1.08-.16.18-.32.22-.59.08-.28-.14-1.17-.43-2.23-1.38-.83-.74-1.38-1.65-1.54-1.93-.16-.28-.02-.43.12-.57.13-.13.28-.34.42-.51.14-.17.18-.28.28-.46.09-.18.05-.36-.02-.5-.07-.14-.62-1.49-.84-2.04-.23-.55-.46-.48-.62-.48-.16 0-.34-.04-.53-.04s-.46 0-1.08.13c-.18.04-.46.22-.75.66-.28.44-1.09 1.06-1.09 2.58s1.11 3 1.27 3.21c.16.22 2.19 3.49 5.32 4.71 3.12 1.22.62.97 1.25.91.43-.04 1.39-.57 1.58-1.12.2-.55.2-1.02.14-1.16-.07-.13-.25-.22-.53-.36z"/></svg>
-                </a>
-            </div>
-        </section>
-
-    </main>
-
-    <footer>
-        <div class="container">
-            <div class="footer-logo">Aura<span>Walls</span></div>
-            <p class="footer-text">&copy; 2025 Dar Mohsin. All Rights Reserved. The future of digital scenery.</p>
-        </div>
-    </footer>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-
-            // --- Header scroll effect ---
-            const header = document.getElementById('header');
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 50) {
-                    header.classList.add('scrolled');
-                } else {
-                    header.classList.remove('scrolled');
-                }
-            });
-
-            // --- Gallery Filtering Logic ---
-            const filterContainer = document.querySelector('.filter-buttons');
-            const galleryItems = document.querySelectorAll('.wallpaper-item');
-
-            filterContainer.addEventListener('click', (event) => {
-                if (event.target.classList.contains('filter-btn')) {
-                    // Remove active class from all buttons
-                    filterContainer.querySelector('.active').classList.remove('active');
-              
+                    <div cla
